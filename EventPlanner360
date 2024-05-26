@@ -1,0 +1,85 @@
+class Event:
+    def __init__(self, event_id, name, date, location):
+        self.id = event_id
+        self.name = name
+        self.date = date
+        self.location = location
+
+    def __str__(self):
+        return f"ID: {self.id}, Name: {self.name}, Date: {self.date}, Location: {self.location}"
+
+class EventPlanner360:
+    def __init__(self):
+        self.events = []
+        self.next_id = 1
+
+    def create_event(self, name, date, location):
+        event = Event(self.next_id, name, date, location)
+        self.events.append(event)
+        self.next_id += 1
+        print("Event created successfully!")
+
+    def read_events(self):
+        if not self.events:
+            print("No events available.")
+        else:
+            for event in self.events:
+                print(event)
+
+    def update_event(self, event_id, name=None, date=None, location=None):
+        for event in self.events:
+            if event.id == event_id:
+                if name:
+                    event.name = name
+                if date:
+                    event.date = date
+                if location:
+                    event.location = location
+                print("Event updated successfully!")
+                return
+        print("Event not found.")
+
+    def delete_event(self, event_id):
+        for event in self.events:
+            if event.id == event_id:
+                self.events.remove(event)
+                print("Event deleted successfully!")
+                return
+        print("Event not found.")
+
+def main():
+    planner = EventPlanner360()
+    
+    while True:
+        print("\nEventPlanner360")
+        print("1. Create Event")
+        print("2. View Events")
+        print("3. Update Event")
+        print("4. Delete Event")
+        print("5. Exit")
+
+        choice = input("Select an option: ")
+
+        if choice == '1':
+            name = input("Enter event name: ")
+            date = input("Enter event date (YYYY-MM-DD): ")
+            location = input("Enter event location: ")
+            planner.create_event(name, date, location)
+        elif choice == '2':
+            planner.read_events()
+        elif choice == '3':
+            event_id = int(input("Enter event ID to update: "))
+            name = input("Enter new event name (leave blank to keep current): ")
+            date = input("Enter new event date (leave blank to keep current): ")
+            location = input("Enter new event location (leave blank to keep current): ")
+            planner.update_event(event_id, name if name else None, date if date else None, location if location else None)
+        elif choice == '4':
+            event_id = int(input("Enter event ID to delete: "))
+            planner.delete_event(event_id)
+        elif choice == '5':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
